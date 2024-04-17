@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3>Voucher List</h3>
+
+    {% block voucher %}
+
+    <div id="acctg-voucher-data-container">
+
+        {{ perms }}
+
+        {{ tz|json_script:'tz' }}
+
+        <table id="id=acctg-voucher-list-wrapper" 
+            class="table table-hover table-responsive rounded-3">
+            <thead>
+                <tr>
+                    <td class="fw-semibold">Voucher#</td>
+                    <td class="fw-semibold">Date</td>
+                    <td class="fw-semibold">Payee</td>
+                    <td class="fw-semibold">Particulars</td>
+                    <td class="fw-semibold text-end">Amount</td>
+                </tr>
+            </thead>
+            <tbody id="acctg-voucher-datalist" class="table-group-divider">
+                {% block acctg-voucher-list %}
+    
+                {% for obj in object_list %}
+                
+                    {% block acctg-voucher-dtl %}
+    
+                    <tr id="acctg-voucher-obj-{{ obj.id }}">
+                        <td> {{ obj.id }}</td>
+                        <td>{{ obj.voucher_date|date:"m/d/Y" }}</td>
+                        <td style="max-width: 200px;">{{ obj.payee_name }}</td>
+                        <td style="max-width: 200px;">{{ obj.particulars }}</td>
+                        <td class="text-end">{{ obj.amount|floatformat:"2g" }}</td>           
+                    </tr>
+                    {% endblock %}
+    
+                    {% endfor %}
+        
+                {% endblock %}
+            </tbody>
+        </table>
+    </div>
+
+    {% endblock %}
+
+{% endblock %}
